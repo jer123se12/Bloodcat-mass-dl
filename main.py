@@ -15,6 +15,7 @@ def download(url,t):
     for i in data:
         
         starttime=time.time()
+        url="https://api.chimu.moe/v1/download/"+i+"?n=0"
         threads.append(threading.Thread(target=dl2, args=(url,path,i)))
     active=[]
     for i in range(len(threads)):
