@@ -19,14 +19,12 @@ def d(data):
         threads.append(threading.Thread(target=dl2, args=(url,path,i)))
     active=[]
     for i in range(len(threads)):
+        alive=sum([1 if th.is_alive() else 0 for th in threads])
+        while alive>t:
+            alive=sum([1 if th.is_alive() else 0 for th in threads])
         threads[i].start()
-        active.append(i)
-        if len(active)>t:
-            for i in active:
-                threads[i].join()
-            active=[]
-    for i in active:
-        threads[i].join()
+    while alive>0:
+        alive=sum([1 if th.is_alive() else 0 for th in threads])
 def dl2(url,path,i):
     starttime=time.time()
     print("downloading file with setid: "+i+" now")
